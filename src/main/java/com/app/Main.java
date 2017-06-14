@@ -1,8 +1,12 @@
 package com.app;
 
 
+import com.app.DAO.DAOChat;
+import com.app.DAO.DAOGroup;
 import com.app.DAO.DAOUser;
-import com.app.DAO.JdbcUserDao;
+import com.app.DAO.JdbcDao.JdbcChatDao;
+import com.app.DAO.JdbcDao.JdbcGroupsDao;
+import com.app.DAO.JdbcDao.JdbcUserDao;
 import com.app.Model.Group;
 import com.app.Model.User;
 
@@ -18,15 +22,27 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
 
-        User user = getUserInstance();
-        User user1 = getUserInstance();
         DAOUser daoUser = new JdbcUserDao();
+        DAOChat daoChat = new JdbcChatDao();
+        DAOGroup daoGroup = new JdbcGroupsDao();
+
+//        User user = getUserInstance();
+//        User user1 = getUserInstance();
+
+
+        daoChat.getAll().forEach(System.out::println);
+//        daoGroup.getAll().forEach(System.out::println);
+
+
+        daoChat.deleteByKey("private1");
+        daoChat.getAll().forEach(System.out::println);
+
 //        daoUser.create(getUserInstance());
 //        System.out.println(daoUser.read("Login1"));
 //        System.out.println(daoUser.read("TEST"));
 //        daoUser.delete(user);
 //        daoUser.update(user1);
-        daoUser.getAll().forEach(System.out::println);
+//        daoUser.getAll().forEach(System.out::println);
 
 //        daoUser.create(getUserInstance());
 //        daoUser.create(getUserInstance());
@@ -38,6 +54,10 @@ public class Main {
 //        daoUser.deleteByKey("Login4");
 //        daoUser.deleteByKey("Login5");
 //        daoUser.deleteByKey("Login6");
+
+
+
+
     }
 
     private static User getUserInstance() {

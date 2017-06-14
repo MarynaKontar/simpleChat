@@ -2,7 +2,7 @@ package com.app;
 
 
 import com.app.DAO.DAOUser;
-import com.app.DAO.PooledJdbcUserDao;
+import com.app.DAO.PooledJdbcDao.PooledJdbcUserDao;
 import org.apache.commons.dbcp.BasicDataSource;
 
 /**

@@ -1,6 +1,7 @@
-package com.app.DAO;
+package com.app.DAO.JdbcDao;
 
 import com.app.BackendException.DatabaseException;
+import com.app.DAO.DAOUser;
 import com.app.Model.Group;
 import com.app.Model.User;
 
@@ -77,7 +78,7 @@ public class JdbcUserDao implements DAOUser {
 
             List<Group> groups = getGroupsByKey(key, connection);
             user.setGroups(groups);
-            return Optional.ofNullable(user);
+            return Optional.of(user);
 
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -102,7 +103,7 @@ public class JdbcUserDao implements DAOUser {
 
 
     @Override
-    public void update(User entity) { //изменить login мы user не позволяем? Для єтого случая надо написать другой метод
+    public void update(User entity) { //изменить login мы user не позволяем? Для этого случая надо написать другой метод
 
         try (Connection connection = getConnection()) {
             connection.setAutoCommit(false);
@@ -156,7 +157,7 @@ public class JdbcUserDao implements DAOUser {
             }
             return users;
 
-        } catch (Exception e) {  //ловлю еще Exception, а не SQLException потому что .add может кидать много разных Exception,
+        } catch (Exception e) {  //ловлю Exception, а не SQLException потому что .add может кидать много разных Exception,
             // но пользователю это не надо. Ему главное знать, что к БД не удалось обратиться.
             throw new DatabaseException(e);
         }

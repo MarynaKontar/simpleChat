@@ -8,6 +8,9 @@ public class Chat {
    private String name;
    private String description;
 
+   public Chat() {
+   }
+
    public Chat(String name, String description) {
       this.name = name;
       this.description = description;

@@ -57,3 +57,9 @@ CREATE TABLE `chat`.`user_groups` (
     REFERENCES `chat`.`users` (`login`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+ALTER TABLE `chat`.`message` 
+CHANGE COLUMN `text` `text` VARCHAR(255) NULL ,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`fk_message_user_login`, `fk_message_chat_name`, `date`),
+DROP INDEX `fk_message_user_login_UNIQUE` ;
