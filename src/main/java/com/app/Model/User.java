@@ -14,15 +14,14 @@ public class User {
    private Date registrationDate;
    List<Group> groups;
 
+   public User() {
+
+   }
 
    public User(String login, String password, String userName) {
       this.login = login;
       this.password = password;
       this.userName = userName;
-
-   }
-
-   public User() {
 
    }
 

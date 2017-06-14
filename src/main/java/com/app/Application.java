@@ -27,6 +27,6 @@ public class Application {
 //        dataSource.setInitialSize(5);
 
         DAOUser daoUser = new PooledJdbcUserDao(dataSource);
-        System.out.println(daoUser.read("TEST"));
+        daoUser.getAll().forEach(System.out::println);
     }
 }

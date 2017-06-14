@@ -13,6 +13,9 @@ public class Message {
    private String text;
    private Date messageDate;
 
+   public Message() {
+   }
+
    public Message(User user, Chat chat, String text, Date messageDate) {
       this.id = user.getLogin() + chat.getName();
       this.user = user;
