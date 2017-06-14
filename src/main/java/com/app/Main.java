@@ -14,11 +14,11 @@ public class Main {
     public static void main(String[] args) throws SQLException {
 
 
-        User user = new User("Login1", "Pass1", "userName1");
+//        User user = new User("Login1", "Pass1", "userName1");
 
         DAOUser daoUser = new JdbcUserDao();
 //        daoUser.create(user);
-//        System.out.println(daoUser.read("Login1"));
+        System.out.println(daoUser.read("Login1"));
         System.out.println(daoUser.read("TEST"));
 
 //        Connection con = getConnection();
