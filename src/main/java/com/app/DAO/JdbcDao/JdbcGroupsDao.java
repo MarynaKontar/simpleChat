@@ -63,6 +63,7 @@ public class JdbcGroupsDao implements DAOGroup {
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)) {
             ps.setString(1, entity.getName());
+            ps.setLong(1, entity.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -114,7 +115,7 @@ public class JdbcGroupsDao implements DAOGroup {
 
     }
 
-    protected Connection getConnection() throws SQLException {
+    private Connection getConnection() throws SQLException {
         return JdbcConnectionToDB.getConnection();
     }
 }

@@ -23,7 +23,7 @@ public class JdbcConnectionToDB {
     private static final String driver = "com.mysql.jdbc.Driver";
 
     protected static Connection getConnection() throws SQLException {
-//        return null;
+
         return DriverManager.getConnection(url, username, password);
     }
 

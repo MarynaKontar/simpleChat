@@ -187,7 +187,7 @@ public class JdbcUserDao implements DAOUser {
         }
     }
 
-    protected Connection getConnection() throws SQLException {
+    private Connection getConnection() throws SQLException {
         return JdbcConnectionToDB.getConnection();
     }
 }

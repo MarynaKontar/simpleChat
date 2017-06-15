@@ -8,20 +8,19 @@ import java.util.Date;
 public class Message {
 
    private String id;
-   private User user;
-   private Chat chat;
+   private String userName;
+   private String chatName;
    private String text;
    private Date messageDate;
 
    public Message() {
    }
 
-   public Message(User user, Chat chat, String text, Date messageDate) {
-      this.id = user.getLogin() + chat.getName();
-      this.user = user;
-      this.chat = chat;
+   public Message(String userName, String chatName, String text) {
+      this.id = userName + chatName; //+ messageDate ???????
+      this.userName = userName;
+      this.chatName = chatName;
       this.text = text;
-      this.messageDate = messageDate;
    }
 
    public String getId() {
@@ -32,20 +31,20 @@ public class Message {
       this.id = id;
    }
 
-   public User getUser() {
-      return user;
+   public String getUserName() {
+      return userName;
    }
 
-   public void setUser(User user) {
-      this.user = user;
+   public void setUserName(String userName) {
+      this.userName = userName;
    }
 
-   public Chat getChat() {
-      return chat;
+   public String getChatName() {
+      return chatName;
    }
 
-   public void setChat(Chat chat) {
-      this.chat = chat;
+   public void setChatName(String chatName) {
+      this.chatName = chatName;
    }
 
    public String getText() {
@@ -65,29 +64,13 @@ public class Message {
    }
 
    @Override
-   public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-
-      Message message = (Message) o;
-
-      return id != null ? id.equals(message.id) : message.id == null;
-   }
-
-   @Override
-   public int hashCode() {
-      return id != null ? id.hashCode() : 0;
-   }
-
-   @Override
    public String toString() {
-      final StringBuilder sb = new StringBuilder("Message{");
-      sb.append("id='").append(id).append('\'');
-      sb.append(", user=").append(user);
-      sb.append(", chat=").append(chat);
-      sb.append(", text='").append(text).append('\'');
-      sb.append(", messageDate=").append(messageDate);
-      sb.append('}');
-      return sb.toString();
+      return "Message{" +
+              "id='" + id + '\'' +
+              ", userName='" + userName + '\'' +
+              ", chatName='" + chatName + '\'' +
+              ", text='" + text + '\'' +
+              ", messageDate=" + messageDate +
+              '}';
    }
 }

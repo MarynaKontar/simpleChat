@@ -114,7 +114,7 @@ public class JdbcChatDao implements DAOChat {
         }
     }
 
-    protected Connection getConnection() throws SQLException {
+     private Connection getConnection() throws SQLException {
         return JdbcConnectionToDB.getConnection();
     }
 }

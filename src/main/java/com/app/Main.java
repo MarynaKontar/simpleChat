@@ -3,9 +3,11 @@ package com.app;
 
 import com.app.DAO.DAOChat;
 import com.app.DAO.DAOGroup;
+import com.app.DAO.DAOMessage;
 import com.app.DAO.DAOUser;
 import com.app.DAO.JdbcDao.JdbcChatDao;
 import com.app.DAO.JdbcDao.JdbcGroupsDao;
+import com.app.DAO.JdbcDao.JdbcMessageDao;
 import com.app.DAO.JdbcDao.JdbcUserDao;
 import com.app.Model.Group;
 import com.app.Model.User;
@@ -25,19 +27,27 @@ public class Main {
         DAOUser daoUser = new JdbcUserDao();
         DAOChat daoChat = new JdbcChatDao();
         DAOGroup daoGroup = new JdbcGroupsDao();
+        DAOMessage daoMessage = new JdbcMessageDao();
 
 //        User user = getUserInstance();
 //        User user1 = getUserInstance();
 
 
-        daoChat.getAll().forEach(System.out::println);
+//        daoChat.getAll().forEach(System.out::println);
 //        daoGroup.getAll().forEach(System.out::println);
 
 
-        daoChat.deleteByKey("private1");
-        daoChat.getAll().forEach(System.out::println);
+//        daoChat.deleteByKey("private1");
+//        daoChat.getAll().forEach(System.out::println);
 
+//        daoGroup.deleteByKey(3L);
+//        daoGroup.getAll().forEach(System.out::println);
 //        daoUser.create(getUserInstance());
+
+
+        daoMessage.getAll().forEach(System.out::println);
+
+
 //        System.out.println(daoUser.read("Login1"));
 //        System.out.println(daoUser.read("TEST"));
 //        daoUser.delete(user);
