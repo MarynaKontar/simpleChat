@@ -29,6 +29,7 @@ public class Message {
 
    public void setId(String id) {
       this.id = id;
+//      this.id = userName + chatName + messageDate.toString();
    }
 
    public String getUserName() {
