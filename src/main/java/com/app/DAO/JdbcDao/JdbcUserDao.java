@@ -51,7 +51,7 @@ public class JdbcUserDao implements DAOUser {
     private void addUserGroupsToUser_Groups(User entity, Connection connection) throws SQLException {
         List<Group> groups = entity.getGroups();
         for (Group group : groups) {
-            try (PreparedStatement ps = connection.prepareStatement(ADD_TO_USER_GROUPS)) {
+            try (PreparedStatement ps = connection.prepareStatement(ADD_TO_USER_GROUPS)) { // найти как єто сделать через batch
                 ps.setLong(1, group.getId());
                 ps.setString(2, entity.getLogin());
                 ps.executeUpdate();
