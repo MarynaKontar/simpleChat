@@ -2,7 +2,6 @@ package com.app.DAO.JdbcDao;
 
 import com.app.BackendException.DatabaseException;
 import com.app.DAO.DAOMessage;
-import com.app.Model.Chat;
 import com.app.Model.Message;
 
 import java.sql.*;
@@ -17,8 +16,8 @@ public class JdbcMessageDao implements DAOMessage {
 
     //сделать рефакторинг - сделать константы для названий колонок в таблице
 
-    private static final String CREATE_SQL = "insert into message(fk_message_user_login, fk_message_chat_name, text, `date`) " +
-            "value(?,?,?,?)";
+    private static final String CREATE_SQL = "insert into message(fk_message_user_login, fk_message_chat_name, text) " +
+            "value(?,?,?)";
     private static final String READ_SQL = "select * from message where id=?";
     private static final String UPDATE_SQL = "update message set text=? where id=?";
     private static final String DELETE_SQL = "delete from message where id=?";
@@ -29,7 +28,7 @@ public class JdbcMessageDao implements DAOMessage {
     public void create(Message entity) {
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(CREATE_SQL)) {
-            ps.setString(1, entity.getUserName());
+            ps.setString(1, entity.getUserLogin());
             ps.setString(2, entity.getChatName());
             ps.setString(3, entity.getText());
             ps.setNull(4, Types.TIMESTAMP);
@@ -41,18 +40,45 @@ public class JdbcMessageDao implements DAOMessage {
     }
 
     @Override
-    public Optional<Message> read(String key) {
-        return null;
+    public Optional<Message> read(Long key) {
+
+        try (Connection connection = getConnection()) {
+            Message message = null;
+            try (PreparedStatement ps = connection.prepareStatement(READ_SQL)) {
+                ps.setLong(1, key);
+                try (ResultSet result = ps.executeQuery()) {
+                    if (!result.next()) return Optional.empty();
+                    message = new Message();
+                    message.setId(result.getLong("message_id"));
+                    message.setUserLogin(result.getString("fk_message_user_login"));
+                    message.setChatName(result.getString("fk_message_chat_name"));
+                    message.setText(result.getString("text"));
+                    message.setMessageDate(result.getTimestamp("date"));
+                }
+            }
+            return Optional.of(message);
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
     }
 
     @Override
     public void update(Message entity) {
 
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)) {
+            ps.setString(1, entity.getText());
+            ps.setLong(1, entity.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
     }
 
     @Override
     public void delete(Message entity) {
-
+        Long key = entity.getId();
+        deleteByKey(key);
     }
 
     @Override
@@ -64,10 +90,8 @@ public class JdbcMessageDao implements DAOMessage {
 
             while (result.next()) {
                 Message message = new Message();
-                message.setId(result.getString("fk_message_user_login") +
-                        result.getString("fk_message_chat_name") +
-                        result.getString("date"));
-                message.setUserName(result.getString("fk_message_user_login"));
+                message.setId(result.getInt("message_id"));
+                message.setUserLogin(result.getString("fk_message_user_login"));
                 message.setChatName(result.getString("fk_message_chat_name"));
                 message.setText(result.getString("text"));
                 message.setMessageDate(result.getTimestamp("date"));
@@ -81,8 +105,14 @@ public class JdbcMessageDao implements DAOMessage {
     }
 
     @Override
-    public void deleteByKey(Long key) {
-
+    public void deleteByKey(long key) {
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
+                ps.setLong(1, key);
+                ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
     }
 
     private Connection getConnection() throws SQLException {

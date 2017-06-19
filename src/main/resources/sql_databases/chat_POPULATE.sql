@@ -38,12 +38,12 @@ INSERT INTO `chat`.`user_groups` (`group_id`, `user_login`) VALUES ('2', 'Login1
 
 
 
-ALTER TABLE `chat`.`users` 
-ADD INDEX `INDEX_password` (`password` ASC);
-
-ALTER TABLE `chat`.`users` 
-ADD UNIQUE INDEX `login_UNIQUE` (`login` ASC);
-
-
-ALTER TABLE `chat`.`message` 
-ADD UNIQUE INDEX `fk_message_user_login_UNIQUE` (`fk_message_user_login` ASC);
+-- ALTER TABLE `chat`.`users` 
+-- ADD INDEX `INDEX_password` (`password` ASC);
+-- 
+-- ALTER TABLE `chat`.`users` 
+-- ADD UNIQUE INDEX `login_UNIQUE` (`login` ASC);
+-- 
+-- 
+-- ALTER TABLE `chat`.`message` 
+-- ADD UNIQUE INDEX `fk_message_user_login_UNIQUE` (`fk_message_user_login` ASC);

@@ -49,6 +49,7 @@ public class JdbcGroupsDao implements DAOGroup {
                 try (ResultSet result = ps.executeQuery()) {
                     if (!result.next()) return Optional.empty();
                     group = new Group();
+                    group.setId(result.getLong("id"));
                     group.setName(result.getString("name"));
                 }
             }
@@ -112,7 +113,6 @@ public class JdbcGroupsDao implements DAOGroup {
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
-
     }
 
     private Connection getConnection() throws SQLException {

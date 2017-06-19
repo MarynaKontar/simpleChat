@@ -18,6 +18,7 @@ PRIMARY KEY(`name`)
 );
 
 CREATE TABLE IF NOT EXISTS `message`(
+`message_id` INT(11) NOT NULL UNIQUE AUTO_INCREMENT,
 `fk_message_user_login` VARCHAR(255) NOT NULL,
 `fk_message_chat_name` VARCHAR(255) NOT NULL,
 `text` varchar(255),
@@ -26,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `message`(
 FOREIGN KEY (`fk_message_user_login`) REFERENCES users(`login`),
 FOREIGN KEY (`fk_message_chat_name`) REFERENCES chat(`name`),
 
-PRIMARY KEY(`fk_message_user_login`,`fk_message_chat_name`)
+PRIMARY KEY(`message_id`)
 );
 
 
@@ -58,8 +59,4 @@ CREATE TABLE `chat`.`user_groups` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-ALTER TABLE `chat`.`message` 
-CHANGE COLUMN `text` `text` VARCHAR(255) NULL ,
-DROP PRIMARY KEY,
-ADD PRIMARY KEY (`fk_message_user_login`, `fk_message_chat_name`, `date`),
-DROP INDEX `fk_message_user_login_UNIQUE` ;
+

@@ -7,8 +7,8 @@ import java.util.Date;
  */
 public class Message {
 
-   private String id;
-   private String userName;
+   private long id;
+   private String userLogin;
    private String chatName;
    private String text;
    private Date messageDate;
@@ -17,27 +17,25 @@ public class Message {
    }
 
    public Message(String userName, String chatName, String text) {
-      this.id = userName + chatName; //+ messageDate ???????
-      this.userName = userName;
+      this.userLogin = userName;
       this.chatName = chatName;
       this.text = text;
    }
 
-   public String getId() {
+   public long getId() {
       return id;
    }
 
-   public void setId(String id) {
+   public void setId(long id) {
       this.id = id;
-//      this.id = userName + chatName + messageDate.toString();
    }
 
-   public String getUserName() {
-      return userName;
+   public String getUserLogin() {
+      return userLogin;
    }
 
-   public void setUserName(String userName) {
-      this.userName = userName;
+   public void setUserLogin(String userLogin) {
+      this.userLogin = userLogin;
    }
 
    public String getChatName() {
@@ -68,7 +66,7 @@ public class Message {
    public String toString() {
       return "Message{" +
               "id='" + id + '\'' +
-              ", userName='" + userName + '\'' +
+              ", userLogin='" + userLogin + '\'' +
               ", chatName='" + chatName + '\'' +
               ", text='" + text + '\'' +
               ", messageDate=" + messageDate +
