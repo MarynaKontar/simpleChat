@@ -9,8 +9,8 @@ import com.app.DAO.JdbcDao.JdbcChatDao;
 import com.app.DAO.JdbcDao.JdbcGroupsDao;
 import com.app.DAO.JdbcDao.JdbcMessageDao;
 import com.app.DAO.JdbcDao.JdbcUserDao;
-import com.app.Model.Group;
-import com.app.Model.User;
+import com.app.model.Group;
+import com.app.model.User;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.app.DAO;
 
-import com.app.Model.Group;
+import com.app.model.Group;
 
 /**
  * Created by User on 14.06.2017.

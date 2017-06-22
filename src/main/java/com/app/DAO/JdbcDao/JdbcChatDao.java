@@ -2,7 +2,7 @@ package com.app.DAO.JdbcDao;
 
 import com.app.BackendException.DatabaseException;
 import com.app.DAO.DAOChat;
-import com.app.Model.Chat;
+import com.app.model.Chat;
 
 import java.sql.*;
 import java.util.ArrayList;

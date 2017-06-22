@@ -1,51 +1,59 @@
 package com.app.HibernateModel;
 
-import java.util.Date;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * Created by User on 09.06.2017.
  */
+@Entity
+@Table(name = "message")
 public class Message {
-
-   private String id;
-   private String userName;
-   private String chatName;
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Column(name = "id")
+   private long id;
+@Column(name = "user_login")
+   private User user;
+@Column(name = "chat_name")
+   private Chat chat;
+@Column(name = "text")
    private String text;
-   private Date messageDate;
+@Column(name = "date")
+   private Timestamp messageDate;
 
    public Message() {
    }
 
-   public Message(String userName, String chatName, String text) {
-      this.id = userName + chatName; //+ messageDate ???????
-      this.userName = userName;
-      this.chatName = chatName;
+   public Message(User user, Chat chat, String text, Timestamp messageDate) {
+      this.user = user;
+      this.chat = chat;
       this.text = text;
+      this.messageDate = messageDate;
    }
 
-   public String getId() {
+   public long getId() {
       return id;
    }
 
-   public void setId(String id) {
+   public void setId(long id) {
       this.id = id;
-//      this.id = userName + chatName + messageDate.toString();
    }
 
-   public String getUserName() {
-      return userName;
+   public User getUser() {
+      return user;
    }
 
-   public void setUserName(String userName) {
-      this.userName = userName;
+   public void setUser(User user) {
+      this.user = user;
    }
 
-   public String getChatName() {
-      return chatName;
+   public Chat getChat() {
+      return chat;
    }
 
-   public void setChatName(String chatName) {
-      this.chatName = chatName;
+   public void setChat(Chat chat) {
+      this.chat = chat;
    }
 
    public String getText() {
@@ -56,11 +64,11 @@ public class Message {
       this.text = text;
    }
 
-   public Date getMessageDate() {
+   public Timestamp getMessageDate() {
       return messageDate;
    }
 
-   public void setMessageDate(Date messageDate) {
+   public void setMessageDate(Timestamp messageDate) {
       this.messageDate = messageDate;
    }
 
@@ -68,10 +76,11 @@ public class Message {
    public String toString() {
       return "Message{" +
               "id='" + id + '\'' +
-              ", userName='" + userName + '\'' +
-              ", chatName='" + chatName + '\'' +
+              ", user=" + user +
+              ", chat=" + chat +
               ", text='" + text + '\'' +
               ", messageDate=" + messageDate +
               '}';
    }
+
 }

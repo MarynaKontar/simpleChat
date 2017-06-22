@@ -1,6 +1,6 @@
 package com.app.DAO;
 
-import com.app.Model.Chat;
+import com.app.model.Chat;
 
 /**
  * Created by User on 09.06.2017.

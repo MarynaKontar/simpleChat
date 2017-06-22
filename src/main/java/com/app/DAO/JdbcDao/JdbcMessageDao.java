@@ -2,7 +2,7 @@ package com.app.DAO.JdbcDao;
 
 import com.app.BackendException.DatabaseException;
 import com.app.DAO.DAOMessage;
-import com.app.Model.Message;
+import com.app.model.Message;
 
 import java.sql.*;
 import java.util.ArrayList;

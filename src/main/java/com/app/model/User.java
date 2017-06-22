@@ -1,6 +1,6 @@
-package com.app.Model;
+package com.app.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ public class User {
    private String login;
    private String password;
    private String userName;
-   private Date registrationDate;
+   private Timestamp registrationDate;
    List<Group> groups;
 
    public User() {
@@ -49,11 +49,11 @@ public class User {
       this.userName = userName;
    }
 
-   public Date getRegistrationDate() {
+   public Timestamp getRegistrationDate() {
       return registrationDate;
    }
 
-   public void setRegistrationDate(Date registrationDate) {
+   public void setRegistrationDate(Timestamp registrationDate) {
       this.registrationDate = registrationDate;
    }
 

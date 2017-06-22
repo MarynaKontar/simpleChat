@@ -1,11 +1,20 @@
 package com.app.HibernateModel;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by User on 12.06.2017.
  */
+@Embeddable
+@Table(name = "groups")
 public class Group {
-
+@Id
+@Column(name = "id")
     private long id;
+@Column(name = "name")
     private String name;
 
     public Group() {

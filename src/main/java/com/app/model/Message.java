@@ -1,6 +1,7 @@
-package com.app.Model;
+package com.app.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
+
 
 /**
  * Created by User on 09.06.2017.
@@ -11,7 +12,7 @@ public class Message {
    private String userLogin;
    private String chatName;
    private String text;
-   private Date messageDate;
+   private Timestamp messageDate;
 
    public Message() {
    }
@@ -54,11 +55,11 @@ public class Message {
       this.text = text;
    }
 
-   public Date getMessageDate() {
+   public Timestamp getMessageDate() {
       return messageDate;
    }
 
-   public void setMessageDate(Date messageDate) {
+   public void setMessageDate(Timestamp messageDate) {
       this.messageDate = messageDate;
    }
 

@@ -1,11 +1,20 @@
 package com.app.HibernateModel;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by User on 09.06.2017.
  */
+@Embeddable
+@Table(name = "chat")
 public class Chat {
-
+@Id
+@Column(name = "name")
    private String name;
+@Column(name = "description")
    private String description;
 
    public Chat() {

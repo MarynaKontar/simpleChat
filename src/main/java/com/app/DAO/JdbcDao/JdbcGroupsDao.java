@@ -2,8 +2,7 @@ package com.app.DAO.JdbcDao;
 
 import com.app.BackendException.DatabaseException;
 import com.app.DAO.DAOGroup;
-import com.app.Model.Chat;
-import com.app.Model.Group;
+import com.app.model.Group;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

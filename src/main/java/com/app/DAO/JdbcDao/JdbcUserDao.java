@@ -2,8 +2,8 @@ package com.app.DAO.JdbcDao;
 
 import com.app.BackendException.DatabaseException;
 import com.app.DAO.DAOUser;
-import com.app.Model.Group;
-import com.app.Model.User;
+import com.app.model.Group;
+import com.app.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,20 +29,20 @@ public class JdbcUserDao implements DAOUser {
     @Override
     public void create(User entity) {
 
-        try (Connection connection = getConnection()){
-             connection.setAutoCommit(false);
+        try (Connection connection = getConnection()) {
+            connection.setAutoCommit(false);
 
-           try (PreparedStatement ps = connection.prepareStatement(CREATE_SQL)) {
-               ps.setString(1, entity.getLogin());
-               ps.setString(2, entity.getPassword());
-               ps.setString(3, entity.getUserName());
-               ps.setNull(4, Types.TIMESTAMP);
-               ps.executeUpdate();
-           }
+            try (PreparedStatement ps = connection.prepareStatement(CREATE_SQL)) {
+                ps.setString(1, entity.getLogin());
+                ps.setString(2, entity.getPassword());
+                ps.setString(3, entity.getUserName());
+                ps.setNull(4, Types.TIMESTAMP);
+                ps.executeUpdate();
+            }
 
-           addUserGroupsToUser_Groups(entity, connection);
+            addUserGroupsToUser_Groups(entity, connection);
 
-           connection.commit();
+            connection.commit();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
@@ -50,14 +50,16 @@ public class JdbcUserDao implements DAOUser {
 
     private void addUserGroupsToUser_Groups(User entity, Connection connection) throws SQLException {
         List<Group> groups = entity.getGroups();
-        for (Group group : groups) {
-            try (PreparedStatement ps = connection.prepareStatement(ADD_TO_USER_GROUPS)) { // найти как єто сделать через batch
+        try (PreparedStatement ps = connection.prepareStatement(ADD_TO_USER_GROUPS)) { // найти как єто сделать через batch
+            for (Group group : groups) {
                 ps.setLong(1, group.getId());
                 ps.setString(2, entity.getLogin());
-                ps.executeUpdate();
+                ps.addBatch();
             }
+        ps.executeBatch();
         }
     }
+
 
     @Override
     public Optional<User> read(String key) { //key = login
@@ -170,11 +172,11 @@ public class JdbcUserDao implements DAOUser {
             connection.setAutoCommit(false);
 
             try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_MESSAGE)) {
-                ps.setString(1,key);
+                ps.setString(1, key);
                 ps.executeUpdate();
             }
             try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_USER_GROUPS)) {
-                ps.setString(1,key);
+                ps.setString(1, key);
                 ps.executeUpdate();
             }
             try (PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {

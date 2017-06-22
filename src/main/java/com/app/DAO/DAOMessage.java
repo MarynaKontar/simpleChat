@@ -1,6 +1,6 @@
 package com.app.DAO;
 
-import com.app.Model.Message;
+import com.app.model.Message;
 
 /**
  * Created by User on 09.06.2017.

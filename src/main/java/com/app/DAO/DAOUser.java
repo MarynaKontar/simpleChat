@@ -1,7 +1,7 @@
 package com.app.DAO;
 
 
-import com.app.Model.User;
+import com.app.model.User;
 
 /**
  * Created by User on 09.06.2017.
