@@ -21,7 +21,7 @@ public class JdbcChatDao implements DAOChat {
     private static final String UPDATE_SQL = "update chat set description=? where `name`=?";
     private static final String DELETE_SQL = "delete from chat where `name`=?";
     private static final String GET_ALL_SQL = "select * from chat";
-    private static final String DELETE_FROM_MESSAGE = "delete from message where fk_message_chat_name=?";
+    private static final String DELETE_FROM_MESSAGE = "delete from message where chat_name=?";
 
     @Override
     public void create(Chat entity) {
@@ -98,23 +98,35 @@ public class JdbcChatDao implements DAOChat {
     public void deleteByKey(String key) {  //key = name
 
         try (Connection connection = getConnection()) {
-            connection.setAutoCommit(false);
+            try {
+                connection.setAutoCommit(false);
 
-            try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_MESSAGE)) {
-                ps.setString(1, key);
-                ps.executeUpdate();
+                try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_MESSAGE)) {
+                    ps.setString(1, key);
+                    ps.executeUpdate();
+                }
+                try (PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
+                    ps.setString(1, key);
+                    ps.executeUpdate();
+                }
+                connection.commit();
+                connection.setAutoCommit(true);
+            } catch (Exception e) {
+                try {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                } catch (SQLException e1) {
+                    throw new DatabaseException("Exception when rollback or setAutoCommit. AutoCommit = " + connection.getAutoCommit(), e1);
+                }
+                throw new DatabaseException(e);
             }
-            try (PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
-                ps.setString(1, key);
-                ps.executeUpdate();
-            }
-            connection.commit();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
     }
 
-     private Connection getConnection() throws SQLException {
+    private Connection getConnection() throws SQLException {
         return JdbcConnectionToDB.getConnection();
     }
+
 }

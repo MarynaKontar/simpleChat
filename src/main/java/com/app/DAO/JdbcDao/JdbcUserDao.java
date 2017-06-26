@@ -23,26 +23,37 @@ public class JdbcUserDao implements DAOUser {
     private static final String SELECT_GROUPS = "select id, name from groups where id in (select group_id from user_groups where user_login=?) ";
     private static final String ADD_TO_USER_GROUPS = "insert into user_groups(group_id, user_login) values(?,?)";
     private static final String GET_ALL_SQL = "select * from users";
-    private static final String DELETE_FROM_MESSAGE = "delete from message where fk_message_user_login=?";
+    private static final String DELETE_FROM_MESSAGE = "delete from message where user_login=?";
 
 
     @Override
     public void create(User entity) {
 
         try (Connection connection = getConnection()) {
-            connection.setAutoCommit(false);
+            try {
+                connection.setAutoCommit(false);
 
-            try (PreparedStatement ps = connection.prepareStatement(CREATE_SQL)) {
-                ps.setString(1, entity.getLogin());
-                ps.setString(2, entity.getPassword());
-                ps.setString(3, entity.getUserName());
-                ps.setNull(4, Types.TIMESTAMP);
-                ps.executeUpdate();
+                try (PreparedStatement ps = connection.prepareStatement(CREATE_SQL)) {
+                    ps.setString(1, entity.getLogin());
+                    ps.setString(2, entity.getPassword());
+                    ps.setString(3, entity.getUserName());
+                    ps.setNull(4, Types.TIMESTAMP);
+                    ps.executeUpdate();
+                }
+
+                addUserGroupsToUser_Groups(entity, connection);
+
+                connection.commit();
+                connection.setAutoCommit(true);
+            } catch (Exception e) {
+                try {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                } catch (SQLException e1) {
+                    throw new DatabaseException("Exception when rollback or setAutoCommit. AutoCommit = " + connection.getAutoCommit(), e1);
+                }
+                throw new DatabaseException(e);
             }
-
-            addUserGroupsToUser_Groups(entity, connection);
-
-            connection.commit();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
@@ -50,16 +61,17 @@ public class JdbcUserDao implements DAOUser {
 
     private void addUserGroupsToUser_Groups(User entity, Connection connection) throws SQLException {
         List<Group> groups = entity.getGroups();
-        try (PreparedStatement ps = connection.prepareStatement(ADD_TO_USER_GROUPS)) { // найти как єто сделать через batch
-            for (Group group : groups) {
-                ps.setLong(1, group.getId());
-                ps.setString(2, entity.getLogin());
-                ps.addBatch();
+        if (groups != null & !groups.isEmpty()) {
+            try (PreparedStatement ps = connection.prepareStatement(ADD_TO_USER_GROUPS)) {
+                for (Group group : groups) {
+                    ps.setLong(1, group.getId());
+                    ps.setString(2, entity.getLogin());
+                    ps.addBatch();
+                }
+                ps.executeBatch();
             }
-        ps.executeBatch();
         }
     }
-
 
     @Override
     public Optional<User> read(String key) { //key = login
@@ -108,24 +120,35 @@ public class JdbcUserDao implements DAOUser {
     public void update(User entity) { //изменить login мы user не позволяем? Для этого случая надо написать другой метод
 
         try (Connection connection = getConnection()) {
-            connection.setAutoCommit(false);
+            try {
+                connection.setAutoCommit(false);
 
-            try (PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)) {
-                ps.setString(1, entity.getPassword());
-                ps.setString(2, entity.getUserName());
-                ps.setNull(3, Types.TIMESTAMP);
-                ps.setString(4, entity.getLogin());
-                ps.executeUpdate();
+                try (PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)) {
+                    ps.setString(1, entity.getPassword());
+                    ps.setString(2, entity.getUserName());
+                    ps.setNull(3, Types.TIMESTAMP);
+                    ps.setString(4, entity.getLogin());
+                    ps.executeUpdate();
+                }
+
+                try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_USER_GROUPS)) {
+                    ps.setString(1, entity.getLogin());
+                    ps.executeUpdate();
+                }
+
+                addUserGroupsToUser_Groups(entity, connection);
+
+                connection.commit();
+                connection.setAutoCommit(true);
+            } catch (Exception e) {
+                try {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                } catch (SQLException e1) {
+                    throw new DatabaseException(e1);
+                }
+                throw new DatabaseException(e);
             }
-
-            try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_USER_GROUPS)) {
-                ps.setString(1, entity.getLogin());
-                ps.executeUpdate();
-            }
-
-            addUserGroupsToUser_Groups(entity, connection);
-
-            connection.commit();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
@@ -169,21 +192,34 @@ public class JdbcUserDao implements DAOUser {
     public void deleteByKey(String key) {  //key = login
 
         try (Connection connection = getConnection()) {
-            connection.setAutoCommit(false);
+            try {
+                connection.setAutoCommit(false);
 
-            try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_MESSAGE)) {
-                ps.setString(1, key);
-                ps.executeUpdate();
+                try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_MESSAGE)) {
+                    ps.setString(1, key);
+                    ps.executeUpdate();
+                }
+                try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_USER_GROUPS)) {
+                    ps.setString(1, key);
+                    ps.executeUpdate();
+                }
+                try (PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
+                    ps.setString(1, key);
+                    ps.executeUpdate();
+                }
+//                throw new SQLException();
+
+                connection.commit();
+                connection.setAutoCommit(true);
+            } catch (Exception e) {
+                try {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                } catch (SQLException e1) {
+                    throw new DatabaseException("Exception when rollback or setAutoCommit. AutoCommit = " + connection.getAutoCommit(), e1);
+                }
+                throw new DatabaseException(e);
             }
-            try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_USER_GROUPS)) {
-                ps.setString(1, key);
-                ps.executeUpdate();
-            }
-            try (PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
-                ps.setString(1, key);
-                ps.executeUpdate();
-            }
-            connection.commit();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }

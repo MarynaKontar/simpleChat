@@ -63,7 +63,7 @@ public class JdbcGroupsDao implements DAOGroup {
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)) {
             ps.setString(1, entity.getName());
-            ps.setLong(1, entity.getId());
+            ps.setLong(2, entity.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -98,17 +98,30 @@ public class JdbcGroupsDao implements DAOGroup {
     @Override
     public void deleteByKey(Long key) {
         try (Connection connection = getConnection()) {
-            connection.setAutoCommit(false);
+            try {
+                connection.setAutoCommit(false);
 
-            try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_USER_GROUPS)) {
-                ps.setLong(1, key);
-                ps.executeUpdate();
+                try (PreparedStatement ps = connection.prepareStatement(DELETE_FROM_USER_GROUPS)) {
+                    ps.setLong(1, key);
+                    ps.executeUpdate();
+                }
+                try (PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
+                    ps.setLong(1, key);
+                    ps.executeUpdate();
+                }
+
+                connection.commit();
+                connection.setAutoCommit(true);
+            } catch (Exception e) {
+                try {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                } catch (SQLException e1) {
+                    throw new DatabaseException("Exception when rollback or setAutoCommit. AutoCommit = " + connection.getAutoCommit(), e1);
+                }
+
+                throw new DatabaseException(e);
             }
-            try (PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
-                ps.setLong(1, key);
-                ps.executeUpdate();
-            }
-            connection.commit();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }

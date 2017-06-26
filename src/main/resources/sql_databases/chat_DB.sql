@@ -36,7 +36,7 @@ PRIMARY KEY(`message_id`)
 
 
 CREATE TABLE `chat`.`groups` (
-  `id` INT(11) NOT NULL ,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC));

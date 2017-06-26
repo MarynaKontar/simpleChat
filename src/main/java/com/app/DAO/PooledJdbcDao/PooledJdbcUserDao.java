@@ -107,7 +107,7 @@ public class PooledJdbcUserDao extends JdbcUserDao {
                 connection.setAutoCommit(true);
                 System.out.println(connection.getAutoCommit());
 
-            } catch (Exception e) {
+            } catch (Exception e) {//Или  ловить Exception вместо SQLException или вставлять  if (groups != null & !groups.isEmpty()) {} в ddUserGroupsToUser_GroupsTable
                 System.out.println("Exception when add user. AutoCommit = " + connection.getAutoCommit());
                 try {
                     connection.rollback();
@@ -140,7 +140,7 @@ public class PooledJdbcUserDao extends JdbcUserDao {
         return IntStream.range(0, 10).mapToObj(i -> {
             Message message = new Message();
             message.setUserLogin(entity.getLogin());
-            message.setChatName("PUBLIC");
+            message.setChatName("Chat0");
             message.setText("Hello this is message  num " + i);
             return message;
         }).collect(Collectors.toList());
@@ -159,15 +159,18 @@ public class PooledJdbcUserDao extends JdbcUserDao {
 
     private void addUserGroupsToUser_GroupsTable(User entity, Connection connection) throws SQLException {
         List<Group> groups = entity.getGroups();
-        try (PreparedStatement ps = connection.prepareStatement(ADD_TO_USER_GROUPS)) {
-            for (Group group : groups) {
-                ps.setLong(1, group.getId());
-                ps.setString(2, entity.getLogin());
-                ps.addBatch();
+        if (groups != null & !groups.isEmpty()) {
+            try (PreparedStatement ps = connection.prepareStatement(ADD_TO_USER_GROUPS)) {
+                for (Group group : groups) {
+                    ps.setLong(1, group.getId());
+                    ps.setString(2, entity.getLogin());
+                    ps.addBatch();
+                }
+                ps.executeBatch();
             }
-            ps.executeBatch();
+//        throw new SQLException();
+//            throw new NullPointerException();
         }
-        throw new NullPointerException();
     }
 
 //

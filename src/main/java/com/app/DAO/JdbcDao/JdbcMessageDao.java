@@ -16,10 +16,10 @@ public class JdbcMessageDao implements DAOMessage {
 
     //сделать рефакторинг - сделать константы для названий колонок в таблице
 
-    private static final String CREATE_SQL = "insert into message(fk_message_user_login, fk_message_chat_name, text) " +
+    private static final String CREATE_SQL = "insert into message(user_login, chat_name, text) " +
             "value(?,?,?)";
     private static final String READ_SQL = "select * from message where id=?";
-    private static final String UPDATE_SQL = "update message set text=? where id=?";
+    private static final String UPDATE_SQL = "update message set user_login=?, chat_name=?, text=? where id=?";
     private static final String DELETE_SQL = "delete from message where id=?";
     private static final String GET_ALL_SQL = "select * from message";
 
@@ -31,7 +31,7 @@ public class JdbcMessageDao implements DAOMessage {
             ps.setString(1, entity.getUserLogin());
             ps.setString(2, entity.getChatName());
             ps.setString(3, entity.getText());
-            ps.setNull(4, Types.TIMESTAMP);
+//            ps.setNull(4, Types.TIMESTAMP);
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -49,9 +49,9 @@ public class JdbcMessageDao implements DAOMessage {
                 try (ResultSet result = ps.executeQuery()) {
                     if (!result.next()) return Optional.empty();
                     message = new Message();
-                    message.setId(result.getLong("message_id"));
-                    message.setUserLogin(result.getString("fk_message_user_login"));
-                    message.setChatName(result.getString("fk_message_chat_name"));
+                    message.setId(result.getLong("id"));
+                    message.setUserLogin(result.getString("user_login"));
+                    message.setChatName(result.getString("chat_name"));
                     message.setText(result.getString("text"));
                     message.setMessageDate(result.getTimestamp("date"));
                 }
@@ -67,8 +67,10 @@ public class JdbcMessageDao implements DAOMessage {
 
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)) {
-            ps.setString(1, entity.getText());
-            ps.setLong(1, entity.getId());
+            ps.setString(1, entity.getUserLogin());
+            ps.setString(2, entity.getChatName());
+            ps.setString(3, entity.getText());
+            ps.setLong(4, entity.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -90,9 +92,9 @@ public class JdbcMessageDao implements DAOMessage {
 
             while (result.next()) {
                 Message message = new Message();
-                message.setId(result.getInt("message_id"));
-                message.setUserLogin(result.getString("fk_message_user_login"));
-                message.setChatName(result.getString("fk_message_chat_name"));
+                message.setId(result.getInt("id"));
+                message.setUserLogin(result.getString("user_login"));
+                message.setChatName(result.getString("chat_name"));
                 message.setText(result.getString("text"));
                 message.setMessageDate(result.getTimestamp("date"));
                 messages.add(message);
