@@ -3,17 +3,21 @@
 
     <persistence-unit name="unit1" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.app.model.User</class>
-        <class>com.app.model.Chat</class>
-        <class>com.app.model.Group</class>
-        <class>com.app.model.Message</class>
-        <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dao_db?useUnicode=true&amp;useSSL=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="javax.persistence.jdbc.user" value="root"/>
-            <property name="javax.persistence.jdbc.password" value="123581321lL"/>
-            <!--<property name="javax.persistence.schema-generation.database.action" value="create"/>-->
-            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+        <!-- <class>com.app.model.User</class>
+         <class>com.app.model.Chat</class>
+         <class>com.app.model.Group</class>
+         <class>com.app.model.Message</class> />-->
+         <class>com.app.HibernateModel.User</class>
+         <class>com.app.HibernateModel.Chat</class>
+         <class>com.app.HibernateModel.Group</class>
+         <class>com.app.HibernateModel.Message</class>
+         <properties>
+             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/chat?useUnicode=true&amp;useSSL=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+             <property name="javax.persistence.jdbc.user" value="root"/>
+             <property name="javax.persistence.jdbc.password" value="123581321lL"/>
+             <!--<property name="javax.persistence.schema-generation.database.action" value="create"/>-->
+            <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
             <property name="hibernate.show_sql" value="true"/>
         </properties>
     </persistence-unit>

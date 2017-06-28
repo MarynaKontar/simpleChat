@@ -1,8 +1,9 @@
 package com.app.HibernateModel;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.List;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by User on 09.06.2017.
@@ -20,11 +21,18 @@ public class User {
     @Column(name = "username")
     private String userName;
 
-    @Column(name = "registration_date")
-    private Timestamp registrationDate;
+    @Column(name = "registration_date", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
 
-    @ElementCollection(targetClass = Group.class, fetch = FetchType.EAGER)
-    List<Group> groups;
+    @Temporal(TemporalType.TIMESTAMP)
+    //current_timestamp on update current_timestamp  CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    private Date registrationDate;
+
+    @ManyToMany
+    @JoinTable(name = "user_groups",
+            joinColumns = {@JoinColumn(name = "user_login")},
+            inverseJoinColumns = {@JoinColumn(name = "group_id")})
+//    @ElementCollection(targetClass = Group.class, fetch = FetchType.EAGER)
+    Set<Group> groups = new HashSet<>();
 
     public User() {
 
@@ -61,19 +69,19 @@ public class User {
         this.userName = userName;
     }
 
-    public Timestamp getRegistrationDate() {
+    public Date getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Timestamp registrationDate) {
+    public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
 
-    public List<Group> getGroups() {
+    public Set<Group> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<Group> groups) {
+    public void setGroups(Set<Group> groups) {
         this.groups = groups;
     }
 

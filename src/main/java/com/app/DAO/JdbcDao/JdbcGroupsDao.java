@@ -8,9 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by User on 14.06.2017.
@@ -77,11 +75,11 @@ public class JdbcGroupsDao implements DAOGroup {
     }
 
     @Override
-    public List<Group> getAll() {
+    public Set<Group> getAll() {
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(GET_ALL_SQL);
              ResultSet result = ps.executeQuery()) {
-            List<Group> groups = new ArrayList<>();
+            Set<Group> groups = new HashSet<>();
             while (result.next()) {
                 Group group = new Group();
                 group.setId(result.getLong("id"));

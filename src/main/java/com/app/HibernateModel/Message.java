@@ -1,7 +1,7 @@
 package com.app.HibernateModel;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by User on 09.06.2017.
@@ -13,23 +13,29 @@ public class Message {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 @Column(name = "id")
    private long id;
-@Column(name = "user_login")
+
+@ManyToOne
+//@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+@JoinColumn(name = "user_login", referencedColumnName = "login")
    private User user;
-@Column(name = "chat_name")
+
+@ManyToOne
+//@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+@JoinColumn(name = "chat_name", referencedColumnName = "name")
    private Chat chat;
 @Column(name = "text")
    private String text;
-@Column(name = "date")
-   private Timestamp messageDate;
+@Column(name = "date",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+@Temporal(TemporalType.TIMESTAMP)
+   private Date messageDate;
 
    public Message() {
    }
 
-   public Message(User user, Chat chat, String text, Timestamp messageDate) {
+   public Message(User user, Chat chat, String text) {
       this.user = user;
       this.chat = chat;
       this.text = text;
-      this.messageDate = messageDate;
    }
 
    public long getId() {
@@ -64,11 +70,11 @@ public class Message {
       this.text = text;
    }
 
-   public Timestamp getMessageDate() {
+   public Date getMessageDate() {
       return messageDate;
    }
 
-   public void setMessageDate(Timestamp messageDate) {
+   public void setMessageDate(Date messageDate) {
       this.messageDate = messageDate;
    }
 

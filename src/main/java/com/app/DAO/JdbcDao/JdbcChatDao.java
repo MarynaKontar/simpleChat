@@ -5,9 +5,7 @@ import com.app.DAO.DAOChat;
 import com.app.model.Chat;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by User on 14.06.2017.
@@ -75,11 +73,11 @@ public class JdbcChatDao implements DAOChat {
     }
 
     @Override
-    public List<Chat> getAll() {
+    public Set<Chat> getAll() {
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(GET_ALL_SQL);
              ResultSet result = ps.executeQuery()) {
-            List<Chat> chats = new ArrayList<>();
+           Set<Chat> chats = new HashSet<>();
 
             while (result.next()) {
                 Chat chat = new Chat();

@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.app.Util.EntityInstance.*;
+
 /**
  * Created by User on 12.06.2017.
  */
@@ -46,83 +48,46 @@ public class Application {
         PooledJdbcMessageDao daoMessage = new PooledJdbcMessageDao(dataSource);
 
 //        ----------------------User----------------------------
-//        daoUser.getAll().forEach(System.out::println);
-//        System.out.println("--------------------");
+        daoUser.getAll().forEach(System.out::println);
+        System.out.println("--------------------");
 
-//        daoUser.createUserWithMessagesExample(getUserInstance(count));
-//        daoUser.update(getUserInstance(count));
-//        System.out.println(daoUser.read("Login4"));
-//        daoUser.getAll().forEach(System.out::println);
-
-//        DAOUser daoUser1 = new HibernateUserDao();
-//        User user = getUserInstance();
-//        daoUser1.create(user);
+        daoUser.createUserWithMessagesExample(getUserInstance(count));
+        daoUser.update(getUserInstance(count));
+        System.out.println(daoUser.read("Login4"));
+        daoUser.getAll().forEach(System.out::println);
 
 
 //        ----------------------Chat----------------------------
-//        daoChat.getAll().forEach(System.out::println);
-//        System.out.println("--------------------");
-//        daoChat.create(getChatInstance(4));
-//        daoChat.update(getChatInstance(0));
-//        daoChat.delete(getChatInstance(0));
-//        System.out.println(daoChat.read("Chat" + 4));
-//        daoChat.getAll().forEach(System.out::println);
+        daoChat.getAll().forEach(System.out::println);
+        System.out.println("--------------------");
+        daoChat.create(getChatInstance(4));
+        daoChat.update(getChatInstance(0));
+        daoChat.delete(getChatInstance(0));
+        System.out.println(daoChat.read("Chat" + 4));
+        daoChat.getAll().forEach(System.out::println);
 
 
 
 //        ----------------------Group----------------------------
-//        daoGroup.getAll().forEach(System.out::println);
-//        System.out.println("--------------------");
-//        daoGroup.create(getGroupInstance(count));
-//        daoGroup.update(getGroupInstance(count));
-//        daoGroup.delete(getGroupInstance(count));
-//        System.out.println(daoGroup.read(4L));
-//        daoGroup.getAll().forEach(System.out::println);
+        daoGroup.getAll().forEach(System.out::println);
+        System.out.println("--------------------");
+        daoGroup.create(getGroupInstance(count));
+        daoGroup.update(getGroupInstance(count));
+        daoGroup.delete(getGroupInstance(count));
+        System.out.println(daoGroup.read(4L));
+        daoGroup.getAll().forEach(System.out::println);
 
 
 
 
 //        ----------------------Message----------------------------
-//        daoMessage.getAll().forEach(System.out::println);
-//        System.out.println("--------------------");
-//        daoMessage.create(getMessageInstance(count));
-//        daoMessage.update(getMessageInstance(count));
-//        daoMessage.delete(getMessageInstance(count));
-//        System.out.println(daoMessage.read(4L));
-//        daoMessage.getAll().forEach(System.out::println);
-
-
+        daoMessage.getAll().forEach(System.out::println);
+        System.out.println("--------------------");
+        daoMessage.create(getMessageInstance(count));
+        daoMessage.update(getMessageInstance(count));
+        daoMessage.delete(getMessageInstance(count));
+        System.out.println(daoMessage.read(4L));
+        daoMessage.getAll().forEach(System.out::println);
 
     }
-
-
-    private static User getUserInstance(int number) {
-        User user = new User("Login" + number, "Pass"  +  number, "userName" + number);
-        List<Group> groups = new ArrayList<>();
-        groups.add(new Group(2, "group2"));
-        groups.add(new Group(2, "group2"));
-        user.setGroups(groups);
-        return user;
-    }
-
-
-    private static Chat getChatInstance(int number) {
-        return new Chat("Chat" + number, "Description!!!!"  +  number);
-    }
-
-    private static Group getGroupInstance(int number) {
-        return new Group(number,"group" + number);
-    }
-
-    private static Message getMessageInstance(int number) {
-
-            Message message = new Message();
-//            message.setId(number);
-            message.setUserLogin("Login3");
-            message.setChatName("Chat" + number);
-            message.setText("Hello!!! this is message  num " + number);
-            return message;
-
-    }
-
 }

@@ -6,9 +6,7 @@ import com.app.model.Group;
 import com.app.model.User;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by User on 09.06.2017.
@@ -60,7 +58,7 @@ public class JdbcUserDao implements DAOUser {
     }
 
     private void addUserGroupsToUser_Groups(User entity, Connection connection) throws SQLException {
-        List<Group> groups = entity.getGroups();
+        Set<Group> groups = entity.getGroups();
         if (groups != null & !groups.isEmpty()) {
             try (PreparedStatement ps = connection.prepareStatement(ADD_TO_USER_GROUPS)) {
                 for (Group group : groups) {
@@ -90,7 +88,7 @@ public class JdbcUserDao implements DAOUser {
                 }
             }
 
-            List<Group> groups = getGroupsByKey(key, connection);
+            Set<Group> groups = getGroupsByKey(key, connection);
             user.setGroups(groups);
             return Optional.of(user);
 
@@ -99,8 +97,8 @@ public class JdbcUserDao implements DAOUser {
         }
     }
 
-    private List<Group> getGroupsByKey(String key, Connection connection) throws SQLException {
-        List<Group> groups = new ArrayList<>();
+    private Set<Group> getGroupsByKey(String key, Connection connection) throws SQLException {
+        Set<Group> groups = new HashSet<>();
         try (PreparedStatement ps = connection.prepareStatement(SELECT_GROUPS)) {
             ps.setString(1, key);
             try (ResultSet result = ps.executeQuery()) {
@@ -161,11 +159,11 @@ public class JdbcUserDao implements DAOUser {
     }
 
     @Override
-    public List<User> getAll() {
+    public Set<User> getAll() {
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(GET_ALL_SQL);
              ResultSet result = ps.executeQuery()) {
-            List<User> users = new ArrayList<>();
+            Set<User> users = new HashSet<>();
 
             while (result.next()) {
                 User user = new User();
@@ -175,7 +173,7 @@ public class JdbcUserDao implements DAOUser {
                 user.setUserName(result.getString("username"));
                 user.setRegistrationDate(result.getTimestamp("registration_date"));
 
-                List<Group> groups = getGroupsByKey(login, connection);
+                Set<Group> groups = getGroupsByKey(login, connection);
                 user.setGroups(groups);
 
                 users.add(user);

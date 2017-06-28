@@ -14,7 +14,9 @@ import com.app.model.User;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by User on 09.06.2017.
@@ -34,7 +36,7 @@ public class Main {
 
 
 //        daoChat.getAll().forEach(System.out::println);
-//        daoGroup.getAll().forEach(System.out::println);
+        daoGroup.getAll().forEach(System.out::println);
 
 
 //        daoChat.deleteByKey("private1");
@@ -72,7 +74,7 @@ public class Main {
 
     private static User getUserInstance() {
         User user = new User("Login" + count, "Pass" + count, "userName" + count);
-        List<Group> groups = new ArrayList<>();
+        Set<Group> groups = new HashSet<>();
         groups.add(new Group(1, "group1"));
         groups.add(new Group(3, "group3"));
         user.setGroups(groups);

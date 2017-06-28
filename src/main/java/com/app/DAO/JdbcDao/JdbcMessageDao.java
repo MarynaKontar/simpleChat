@@ -5,9 +5,7 @@ import com.app.DAO.DAOMessage;
 import com.app.model.Message;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by User on 15.06.2017.
@@ -84,11 +82,11 @@ public class JdbcMessageDao implements DAOMessage {
     }
 
     @Override
-    public List<Message> getAll() {
+    public Set<Message> getAll() {
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(GET_ALL_SQL);
              ResultSet result = ps.executeQuery()) {
-            List<Message> messages = new ArrayList<>();
+            Set<Message> messages = new HashSet<>();
 
             while (result.next()) {
                 Message message = new Message();

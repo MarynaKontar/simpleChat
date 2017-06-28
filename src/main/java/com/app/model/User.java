@@ -2,6 +2,7 @@ package com.app.model;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by User on 09.06.2017.
@@ -12,7 +13,7 @@ public class User {
    private String password;
    private String userName;
    private Timestamp registrationDate;
-   List<Group> groups;
+   Set<Group> groups;
 
    public User() {
 
@@ -57,11 +58,11 @@ public class User {
       this.registrationDate = registrationDate;
    }
 
-   public List<Group> getGroups() {
+   public Set<Group> getGroups() {
       return groups;
    }
 
-   public void setGroups(List<Group> groups) {
+   public void setGroups(Set<Group> groups) {
       this.groups = groups;
    }
 

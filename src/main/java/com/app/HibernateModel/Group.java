@@ -1,27 +1,30 @@
 package com.app.HibernateModel;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by User on 12.06.2017.
  */
-@Embeddable
+@Entity
+//@Embeddable
 @Table(name = "groups")
 public class Group {
-@Id
-@Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
-@Column(name = "name")
+    @Column(name = "name")
     private String name;
+
+    @ManyToMany(mappedBy = "groups", cascade = CascadeType.ALL)
+    private Set<User> users = new HashSet<>();
 
     public Group() {
     }
 
-    public Group(long id, String name) {
-        this.id = id;
+    public Group(String name) {
         this.name = name;
     }
 
@@ -41,13 +44,21 @@ public class Group {
         this.name = name;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Group{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", users=" + users +
+                '}';
     }
 }
 

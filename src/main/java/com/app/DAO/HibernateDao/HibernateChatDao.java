@@ -1,6 +1,6 @@
 package com.app.DAO.HibernateDao;
 
-import com.app.HibernateModel.User;
+import com.app.HibernateModel.Chat;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -9,12 +9,11 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Created by User on 22.06.2017.
+ * Created by User on 27.06.2017.
  */
-public class HibernateUserDao extends HibernateDAO<String, User> {
-
+public class HibernateChatDao extends HibernateDAO<String, Chat> {
 //    @Override
-//    public void create(User entity) {
+//    public void create(Chat entity) {
 //        EntityManagerFactory factory= Persistence.createEntityManagerFactory("unit1");
 //        EntityManager em = factory.createEntityManager();
 //        em.getTransaction().begin();
@@ -23,18 +22,13 @@ public class HibernateUserDao extends HibernateDAO<String, User> {
 //    }
 
     @Override
-    public Optional<User> read(String key) {
+    public Optional<Chat> read(String key) {
         EntityManagerFactory factory= Persistence.createEntityManagerFactory("unit1");
         EntityManager em = factory.createEntityManager();
         em.getTransaction().begin();
-        User user = em.find(User.class, key);
+        Chat entity = em.find(Chat.class, key);
         em.getTransaction().commit();
-        return Optional.ofNullable(user);
+        return Optional.ofNullable(entity);
     }
 
-
-    @Override
-    public Set<User> getAll() {
-        return null;
     }
-}

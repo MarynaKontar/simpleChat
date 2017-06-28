@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -158,7 +159,7 @@ public class PooledJdbcUserDao extends JdbcUserDao {
 
 
     private void addUserGroupsToUser_GroupsTable(User entity, Connection connection) throws SQLException {
-        List<Group> groups = entity.getGroups();
+        Set<Group> groups = entity.getGroups();
         if (groups != null & !groups.isEmpty()) {
             try (PreparedStatement ps = connection.prepareStatement(ADD_TO_USER_GROUPS)) {
                 for (Group group : groups) {
