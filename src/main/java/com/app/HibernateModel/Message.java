@@ -1,7 +1,7 @@
 package com.app.HibernateModel;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by User on 09.06.2017.
@@ -15,19 +15,22 @@ public class Message {
    private long id;
 
 @ManyToOne
-//@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 @JoinColumn(name = "user_login", referencedColumnName = "login")
+//        , foreignKey = @ForeignKey(name = "USER_LOGIN_FK"))
    private User user;
 
 @ManyToOne
-//@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-@JoinColumn(name = "chat_name", referencedColumnName = "name")
+@JoinColumn(name = "chat_name",
+        referencedColumnName = "name")
+//        , foreignKey = @ForeignKey(name = "CHAT_NAME_FK"))
    private Chat chat;
+
 @Column(name = "text")
    private String text;
 @Column(name = "date",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
-@Temporal(TemporalType.TIMESTAMP)
-   private Date messageDate;
+//@Temporal(TemporalType.TIMESTAMP)
+//   private Date messageDate;
+   private LocalDateTime messageDate;
 
    public Message() {
    }
@@ -70,11 +73,11 @@ public class Message {
       this.text = text;
    }
 
-   public Date getMessageDate() {
+   public LocalDateTime getMessageDate() {
       return messageDate;
    }
 
-   public void setMessageDate(Date messageDate) {
+   public void setMessageDate(LocalDateTime messageDate) {
       this.messageDate = messageDate;
    }
 

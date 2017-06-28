@@ -38,7 +38,7 @@ public class HibernateEntityInstance {
 
         Message message = new Message();
         message.setUser(new User("Login"+ number,"Pass"+ number,"userName" + number));
-        message.setChat(new Chat("Chat" + number, "description" + number));
+        message.setChat(new Chat("Chat" + (2), "description" + number));
         message.setText("Hello!!! this is message  num " + number);
         return message;
 

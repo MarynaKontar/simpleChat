@@ -19,6 +19,7 @@ public class Group {
     private String name;
 
     @ManyToMany(mappedBy = "groups", cascade = CascadeType.ALL)
+//    @ManyToMany(mappedBy = "groups", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<User> users = new HashSet<>();
 
     public Group() {
@@ -50,6 +51,17 @@ public class Group {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    //http://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#associations-many-to-many
+    public void addUser(User user) {
+        users.add( user );
+        user.getGroups().add( this );
+    }
+
+    public void removeUser(User user) {
+        users.remove( user );
+        user.getGroups().remove( this );
     }
 
     @Override

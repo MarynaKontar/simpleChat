@@ -31,4 +31,13 @@ public class HibernateChatDao extends HibernateDAO<String, Chat> {
         return Optional.ofNullable(entity);
     }
 
+    @Override
+    public void delete(Chat entity) {
+        EntityManagerFactory factory= Persistence.createEntityManagerFactory("unit1");
+        EntityManager em = factory.createEntityManager();
+        em.getTransaction().begin();
+        em.remove(em.getReference(Chat.class, entity.getName()));
+        em.getTransaction().commit();
+    }
+
     }

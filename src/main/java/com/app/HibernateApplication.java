@@ -39,11 +39,25 @@ public class HibernateApplication {
 //        User user2= getUserInstance(count + 1);
 //        daoUser.create(user2);
 
-        Message message1 = getMessageInstance(count);
-        daoMessage.create(message1);
-        Message message2= getMessageInstance(count + 1);
-        daoMessage.create(message2);
+//        Message message1 = getMessageInstance(count);
+//        daoMessage.create(message1);
+//        Message message2= getMessageInstance(count + 1);
+//        daoMessage.create(message2);
 
-        
+//        User user3= getUserInstance(count + 2);
+//        daoUser.create(user3);
+
+//        Message message3= getMessageInstance(count + 2);
+//        daoMessage.create(message3);
+
+//        User user4= getUserInstance(count + 3);
+//        daoUser.create(user4);
+
+//        Message message4= getMessageInstance(count + 3);
+//        daoMessage.create(message4);
+
+        Message message5= daoMessage.read(2L).get();
+//        System.out.println(message5);
+        daoMessage.delete(message5);
     }
 }

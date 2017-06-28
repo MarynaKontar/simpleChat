@@ -20,4 +20,13 @@ public class HibernateGroupDao extends HibernateDAO<Long, Group>{
         em.getTransaction().commit();
         return Optional.ofNullable(entity);
     }
+
+    @Override
+    public void delete(Group entity) {
+        EntityManagerFactory factory= Persistence.createEntityManagerFactory("unit1");
+        EntityManager em = factory.createEntityManager();
+        em.getTransaction().begin();
+        em.remove(em.getReference(Group.class, entity.getId()));
+        em.getTransaction().commit();
+    }
 }

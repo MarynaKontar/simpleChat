@@ -32,7 +32,14 @@ public class HibernateUserDao extends HibernateDAO<String, User> {
         return Optional.ofNullable(user);
     }
 
-
+    @Override
+    public void delete(User entity) {
+        EntityManagerFactory factory= Persistence.createEntityManagerFactory("unit1");
+        EntityManager em = factory.createEntityManager();
+        em.getTransaction().begin();
+        em.remove(em.getReference(User.class, entity.getLogin()));
+        em.getTransaction().commit();
+    }
     @Override
     public Set<User> getAll() {
         return null;

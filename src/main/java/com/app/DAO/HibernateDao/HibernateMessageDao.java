@@ -21,4 +21,13 @@ public class HibernateMessageDao extends HibernateDAO<Long, Message> {
         em.getTransaction().commit();
         return Optional.ofNullable(entity);
     }
+
+    @Override
+    public void delete(Message entity) {
+        EntityManagerFactory factory= Persistence.createEntityManagerFactory("unit1");
+        EntityManager em = factory.createEntityManager();
+        em.getTransaction().begin();
+        em.remove(em.getReference(Message.class, entity.getId()));
+        em.getTransaction().commit();
+    }
 }

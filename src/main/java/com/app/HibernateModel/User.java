@@ -1,6 +1,7 @@
 package com.app.HibernateModel;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,12 +23,12 @@ public class User {
     private String userName;
 
     @Column(name = "registration_date", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
-
-    @Temporal(TemporalType.TIMESTAMP)
-    //current_timestamp on update current_timestamp  CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    private Date registrationDate;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date registrationDate;
+    private LocalDateTime registrationDate;
 
     @ManyToMany
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "user_groups",
             joinColumns = {@JoinColumn(name = "user_login")},
             inverseJoinColumns = {@JoinColumn(name = "group_id")})
@@ -69,11 +70,11 @@ public class User {
         this.userName = userName;
     }
 
-    public Date getRegistrationDate() {
+    public LocalDateTime getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
 
