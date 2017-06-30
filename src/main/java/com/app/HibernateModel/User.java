@@ -2,15 +2,19 @@ package com.app.HibernateModel;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+//import javax.xml.bind.annotation.XmlElement;
 
 /**
  * Created by User on 09.06.2017.
  */
 @Entity
 @Table(name = "users")
+//@NamedQueries({
+//        @NamedQuery(name = "User.findAll", query = "select u FROM com.app.HibernateModel.User u"),
+//        @NamedQuery(name = "User.findCountAll", query = "Select count(u) FROM User u")
+//})
 public class User {
     @Id
     @Column(name = "login")

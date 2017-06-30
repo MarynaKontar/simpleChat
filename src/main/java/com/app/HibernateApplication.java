@@ -56,8 +56,9 @@ public class HibernateApplication {
 //        Message message4= getMessageInstance(count + 3);
 //        daoMessage.create(message4);
 
-        Message message5= daoMessage.read(2L).get();
-//        System.out.println(message5);
-        daoMessage.delete(message5);
+        Message message5= daoMessage.read(1L).get();
+
+        System.out.println(message5);
+//        daoMessage.delete(message5);
     }
 }

@@ -8,6 +8,10 @@ import javax.persistence.*;
 @Entity
 //@Embeddable
 @Table(name = "chat")
+@NamedQueries({
+        @NamedQuery(name = "User.findAll", query = "select c FROM com.app.HibernateModel.Chat c"),
+        @NamedQuery(name = "User.findCountAll", query = "Select count(c) FROM Chat c")
+})
 public class Chat {
 @Id
 @Column(name = "name")
