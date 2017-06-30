@@ -1,5 +1,5 @@
--- INSERT INTO chat.users (LOGIN, PASS, USERNAME) 
--- VALUES ('TEST', 'TEST','TEST');
+ -- INSERT INTO chat.users (LOGIN, `PASSWORD`, USERNAME) 
+  -- VALUES ('TEST', 'TEST','TEST');
 
 
 
