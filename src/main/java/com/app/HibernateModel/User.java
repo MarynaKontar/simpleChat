@@ -11,10 +11,10 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "users")
-//@NamedQueries({
-//        @NamedQuery(name = "User.findAll", query = "select u FROM com.app.HibernateModel.User u"),
-//        @NamedQuery(name = "User.findCountAll", query = "Select count(u) FROM User u")
-//})
+@NamedQueries({
+        @NamedQuery(name = "User.findAll", query = "select u FROM User u"),
+        @NamedQuery(name = "User.countAll", query = "Select count(u) FROM User u")
+})
 public class User {
     @Id
     @Column(name = "login")

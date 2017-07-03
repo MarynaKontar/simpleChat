@@ -9,8 +9,8 @@ import javax.persistence.*;
 //@Embeddable
 @Table(name = "chat")
 @NamedQueries({
-        @NamedQuery(name = "User.findAll", query = "select c FROM com.app.HibernateModel.Chat c"),
-        @NamedQuery(name = "User.findCountAll", query = "Select count(c) FROM Chat c")
+        @NamedQuery(name = "Chat.findAll", query = "select c FROM com.app.HibernateModel.Chat c"),
+        @NamedQuery(name = "Chat.countAll", query = "Select count(c) FROM Chat c")
 })
 public class Chat {
 @Id
