@@ -12,7 +12,8 @@ import java.util.Set;
 @Table(name = "groups")
 public class Group {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //autoincrement
+    //в оракле нет автоинкрементб есть сиквенс=счетчик, значение которого увеличивается на 1;Sequence
     @Column(name = "id")
     private long id;
     @Column(name = "name")

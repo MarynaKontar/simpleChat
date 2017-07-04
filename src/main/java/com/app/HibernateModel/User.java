@@ -31,8 +31,8 @@ public class User {
 //    private Date registrationDate;
     private LocalDateTime registrationDate;
 
-    @ManyToMany
-//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH})
     @JoinTable(name = "user_groups",
             joinColumns = {@JoinColumn(name = "user_login")},
             inverseJoinColumns = {@JoinColumn(name = "group_id")})
