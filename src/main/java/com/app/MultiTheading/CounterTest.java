@@ -6,13 +6,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by User on 03.07.2017.
  */
 public class CounterTest {
+    
     private static class Counter{
         private int i;
         private Object mu = new Object();
-
         private AtomicInteger c = new AtomicInteger();// !!!!!ОБЕСПЕЧИВАЕТ ПОТОКОБЕЗОПАСНОСТЬ
-        private int getAndIncrement(){
 
+        private int getAndIncrement(){
 //            // критическая секция (окружена synchronized) = монитор. Пока эту секцию не выполнят, заново нельзя зайти другому thread
 //            synchronized (this) {//блок по экземпляру текущего класса synchronize. Можно synchronized (this) или synchronized (mu)
 ////            int tmp = i;
@@ -20,14 +20,13 @@ public class CounterTest {
 ////            return tmp;
 //            return i++;
 //        }
-
             return c.getAndIncrement();
-
         }
         private int get(){
             return i;
         }
     }
+
 
     public static void main(String[] args) {
         Counter c = new Counter();
